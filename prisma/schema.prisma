@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//datasource db {
+//  provider = "postgresql"
+//  url      = env("DATABASE_URL")
+//}
+
+// datasource db {
+//   provider = "sqlserver"
+//   url      = env("DATABASE_URL")
+// }
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// model User{
+//   id Int @id @default(autoincrement())
+//   userName String @db.NVarChar(30) @unique
+//   userPassword String 
+//   userEmail String @db.NVarChar(150)
+//   userFullName String @db.NVarChar(100)
+//   userGroupCode String @db.NVarChar(15)
+//   isActive Boolean @default(true)
+//   lastSucessfulLogin DateTime?
+//   isLocked Boolean @default(false)
+//   noAttempt Int @default(0)
+//   lockDate DateTime?
+//   createdOn DateTime @default(now()) 
+//   createdBy String @db.NVarChar(30)
+//   editedOn DateTime @updatedAt
+//   editedBy String? @db.NVarChar(30) @default("")
+
+//   userGroup UserGroup @relation(fields: [userGroupCode], references: [userGroupCode])
+// }
+
+// model UserGroup{
+//   id Int @id @default(autoincrement())
+//   userGroupCode String @db.NVarChar(15) @unique
+//   userGroupDescription String @db.NVarChar(100)
+//   isActive Boolean @db.Bit
+//   createdOn DateTime @default(now()) 
+//   createdBy String @db.NVarChar(30) 
+//   editedOn DateTime @updatedAt
+//   editedBy String? @db.NVarChar(30) @default("")
+//   users User[]
+// }
+
+// model Department{
+//   id Int @id @default(autoincrement())
+//   deptCode String @db.NVarChar(15)
+//   deptName String @db.NVarChar(100)
+//   isActive Boolean @db.Bit
+//   createdOn DateTime @default(now()) 
+//   createdBy String @db.NVarChar(30) 
+//   editedOn DateTime @updatedAt
+//   editedBy String? @db.NVarChar(30) @default("")
+//   employee Employee[]
+//   @@unique([id])
+// }
+
+// model Employee{
+//   id Int @id @default(autoincrement())
+//   empNo String @db.NVarChar(15)
+//   empName String @db.NVarChar(100)
+//   department Department @relation(fields: [deptId], references: [id])
+//   deptId Int
+//   createdOn DateTime @default(now()) 
+//   createdBy String @db.NVarChar(30)
+//   editedOn DateTime @updatedAt
+//   editedBy String @db.NVarChar(30)
+//   @@unique([id])
+// }
+
+model User{
+  id Int @id @default(autoincrement())
+  userName String @db.VarChar(30) @unique
+  userPassword String 
+  userEmail String @db.VarChar(150)
+  userFullName String @db.VarChar(100)
+  userGroupCode String @db.VarChar(15)
+  isActive Boolean @default(true)
+  lastSucessfulLogin DateTime?
+  isLocked Boolean @default(false)
+  noAttempt Int @default(0)
+  lockDate DateTime?
+  createdOn DateTime @default(now()) 
+  createdBy String @db.VarChar(30)
+  editedOn DateTime @updatedAt
+  editedBy String? @db.VarChar(30) @default("")
+
+  userGroup UserGroup @relation(fields: [userGroupCode], references: [userGroupCode])
+}
+
+model UserGroup{
+  id Int @id @default(autoincrement())
+  userGroupCode String @db.VarChar(15) @unique
+  userGroupDescription String @db.VarChar(100)
+  isActive Boolean @db.TinyInt()
+  createdOn DateTime @default(now()) 
+  createdBy String @db.VarChar(30) 
+  editedOn DateTime @updatedAt
+  editedBy String? @db.VarChar(30) @default("")
+  users User[]
+}
+
+model Department{
+  id Int @id @default(autoincrement())
+  deptCode String @db.VarChar(15)
+  deptName String @db.VarChar(100)
+  isActive Boolean @db.TinyInt
+  createdOn DateTime @default(now()) 
+  createdBy String @db.VarChar(30) 
+  editedOn DateTime @updatedAt
+  editedBy String? @db.VarChar(30) @default("")
+  employee Employee[]
+  @@unique([id])
+}
+
+model Employee{
+  id Int @id @default(autoincrement())
+  empNo String @db.VarChar(15)
+  empName String @db.VarChar(100)
+  department Department @relation(fields: [deptId], references: [id])
+  deptId Int
+  createdOn DateTime @default(now()) 
+  createdBy String @db.VarChar(30)
+  editedOn DateTime @updatedAt
+  editedBy String @db.VarChar(30)
+  @@unique([id])
+}
